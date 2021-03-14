@@ -4,7 +4,7 @@ class ModelComp:
     def __init__(self,seed=42):
         self.seed = seed 
     
-    def models(self,lr=None,rf=None,knn=None,nb=None,svm=None):
+    def models(self):
        # from imblearn.over_sampling import SMOTE,RandomOverSampler
         # Classifier
 
