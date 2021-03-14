@@ -10,10 +10,13 @@ class ColTransformer:
         from sklearn.preprocessing import StandardScaler
         from sklearn.preprocessing import OneHotEncoder
         from sklearn.preprocessing import LabelEncoder
-        # Column transformation
+        import numpy as np
+
+        # Distinguish columns into numerical and categorical
         numerical_col = self.X_train.select_dtypes(include=["int64","float64"]).columns
         categorical_col = self.X_train.select_dtypes(include=["object","bool"]).columns
-
+        
+        # Column transformation
         col_transformer = ColumnTransformer(
                             transformers=[
                                 ("scaler", StandardScaler(), 
@@ -25,8 +28,7 @@ class ColTransformer:
                             ],remainder="drop",
                             n_jobs=-1
                             )
-    
-        import numpy as np
+
         scaled_X_train = col_transformer.fit_transform(self.X_train).toarray()
         scaled_X_test = col_transformer.transform(self.X_test)
         return scaled_X_train, scaled_X_test
