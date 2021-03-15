@@ -1,5 +1,6 @@
 
 class ModelComp:
+    
 """Choice of algorithms and vaidation based on accuracy, 
 training time and inference time"""
 
