@@ -1,5 +1,5 @@
 
-from .preprocessing import scaled_X_train,scaled_X_test, y_train,y_test
+from src.preprocessing import scaled_X_train,scaled_X_test, y_train,y_test
 from model_comparison import ModelComp
 mc = ModelComp()
 
