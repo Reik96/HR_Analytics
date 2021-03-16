@@ -1,19 +1,18 @@
 
 class ModelComp:
     
-"""Choice of algorithms and vaidation based on accuracy, 
-training time and inference time"""
+    """Choice of algorithms and vaidation based on accuracy,
+        training time and inference time"""
 
     def __init__(self,seed=42):
         self.seed = seed 
     
-    def models(self, lr=None,knn=None,rf=None,nb=None,svm=None):
+    def models(self, lr=None,knn=None,rf=None,svm=None):
        # from imblearn.over_sampling import SMOTE,RandomOverSampler
         # Classifier
         self.lr = lr
         self.rf = rf
         self.knn = knn 
-        self.nb = nb
         self.svm = svm 
         
         if self.lr =="lr":
@@ -21,27 +20,22 @@ training time and inference time"""
             from sklearn.linear_model import LogisticRegression
             self.lr = LogisticRegression(random_state=self.seed, max_iter=5000)
         
-        if rf =="rf":
+        if self.rf =="rf":
             from sklearn.ensemble import RandomForestClassifier
-            rf=RandomForestClassifier(random_state=self.seed)
+            self.rf=RandomForestClassifier(random_state=self.seed)
 
         if self.knn == "knn":
             from sklearn.neighbors import KNeighborsClassifier as KNN
             self.knn = KNN()
 
-        if nb "knn":
-            from sklearn.naive_bayes import GaussianNB as GNB
-            nb = GNB()
-
-        if svm "svm":
+        if self.svm == "svm":
             from sklearn.svm import SVC
-            svm = SVC(random_state=self.seed,probability=True)
+            self.svm = SVC(random_state=self.seed,probability=True)
         
 
         return [("Logistische Regression",lr),
                  ("KNN",knn),
               ("Random Forest",rf),
-              ("Naiver Bayes",nb),
               ("SVM",svm)
               ]
    
