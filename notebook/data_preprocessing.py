@@ -44,7 +44,8 @@ df.last_new_job.replace("unknown","0",inplace=True)
 df.last_new_job = pd.to_numeric(df.last_new_job)
 
 # Data split in Training and Test data
-from src.preprocessing.data_split import Split
+from preprocessing.data_split import Split
+
 
 split = Split(df,target="target")
 X_train,X_test,y_train,y_test=split.train_test()
