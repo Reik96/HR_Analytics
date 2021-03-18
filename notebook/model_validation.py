@@ -4,8 +4,8 @@ from src.modelling.model_comparison import ModelComp
 
 mc = ModelComp()
 
-comp = mc.models(lr="lr",knn="knn",rf="rf",svm="svm")
+comp = mc.models(lr="lr")
 
-dfs = mc.comparison(scaled_X_train, scaled_X_test, y_train,y_test)
+clf = mc.comparison(scaled_X_train, y_train)
 
-print(dfs)
+print(clf)

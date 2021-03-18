@@ -39,14 +39,14 @@ class ModelComp:
               ("SVM",svm)
               ]
    
-    def comparison(self,scaled_X_train,scaled_X_test,y_train,y_test,clf=None, splits=5):
+    def comparison(self,scaled_X_train,y_train,clf=None,smote splits=5):
         
         from sklearn.model_selection import cross_validate
         import pandas as pd
         from sklearn.model_selection import StratifiedKFold, cross_validate
        
         kfold = StratifiedKFold(n_splits=splits,shuffle=True, random_state=self.seed)
-        classifier = self.models(self.lr,self.knn,self.rf,self.nb,self.svm)
+        classifier = self.models(self.lr,self.knn,self.rf,self.svm)
 
         cv_scores = []
         cv_score_time =[]
@@ -63,11 +63,14 @@ class ModelComp:
                 df_clf.append(clf_name)
 
         # Dataframe mit Ergebnissen
-        df_scores = pd.DataFrame(cv_scores,columns=["Testgenauigkeit"])
-        df_scortime = pd.DataFrame(cv_score_time,columns=["Vorhersagedauer in Sekunden"])
-        df_fit = pd.DataFrame(cv_fit_time,columns=["Trainingsdauer in Sekunden"])
-        df_clf = pd.DataFrame(df_clf,columns=["Klassifikator"])
+        df_scores = pd.DataFrame(cv_scores,columns=["Test Accuracy"])
+        df_scortime = pd.DataFrame(cv_score_time,columns=["Inference time in seconds"])
+        df_fit = pd.DataFrame(cv_fit_time,columns=["Training time in seconds"])
+        df_clf = pd.DataFrame(df_clf,columns=["Classifier"])
         df_clf_scores= pd.concat([df_clf, df_scores,df_scortime,df_fit], axis=1)
-        df_clf_scores = df_clf_scores.sort_values(by=["Testgenauigkeit"], ascending=False)
+        df_clf_scores = df_clf_scores.sort_values(by=["Test Accuracy"], ascending=False)
         return df_clf_scores
 
+    #def imbalance():
+
+        # smote technique
