@@ -11,4 +11,4 @@ lr.fit(scaled_X_train,y_train)
 
 y_pred = lr.predict(scaled_X_test)
 
-#print(classification_report(y_test,y_pred))
+print(classification_report(y_test,y_pred))

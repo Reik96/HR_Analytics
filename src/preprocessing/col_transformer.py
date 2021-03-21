@@ -28,7 +28,6 @@ class ColTransformer:
                             ],remainder="drop",
                             n_jobs=-1
                             )
-
         scaled_X_train = col_transformer.fit_transform(self.X_train).toarray()
         scaled_X_test = col_transformer.transform(self.X_test).toarray()
         return scaled_X_train, scaled_X_test

@@ -39,7 +39,7 @@ class ModelComp:
               ("SVM",svm)
               ]
    
-    def comparison(self,scaled_X_train,y_train,clf=None,smote splits=5):
+    def comparison(self,scaled_X_train,y_train,clf=None,splits=5):
         
         from sklearn.model_selection import cross_validate
         import pandas as pd
