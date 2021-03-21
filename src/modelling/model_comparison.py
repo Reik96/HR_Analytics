@@ -45,7 +45,7 @@ class ModelComp:
         import pandas as pd
         from sklearn.model_selection import StratifiedKFold, cross_validate
         from imblearn.over_sampling import SMOTE
-        from imblearn.pipeline import make_pipeline
+
         kfold = StratifiedKFold(n_splits=splits,shuffle=True, random_state=self.seed)
         classifier = self.models(self.lr,self.knn,self.rf,self.svm)
 
