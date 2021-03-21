@@ -44,7 +44,8 @@ class ModelComp:
         from sklearn.model_selection import cross_validate
         import pandas as pd
         from sklearn.model_selection import StratifiedKFold, cross_validate
-       
+        from imblearn.over_sampling import SMOTE
+        from imblearn.pipeline import make_pipeline
         kfold = StratifiedKFold(n_splits=splits,shuffle=True, random_state=self.seed)
         classifier = self.models(self.lr,self.knn,self.rf,self.svm)
 
@@ -53,9 +54,11 @@ class ModelComp:
         cv_fit_time = []
         df_clf = []
 
+        
         for clf_name,clf in classifier:
     
             if clf is not None:
+                scaled_X_train,y_train = SMOTE(random_state=self.seed).fit_resample(scaled_X_train,y_train)
                 score = cross_validate(clf,scaled_X_train,y_train,cv=kfold)
                 cv_scores.append(score["test_score"].mean()*100) # durchschnittliches Validierungsergebnis in Prozent
                 cv_score_time.append(score["score_time"].mean()) # durchschnittliche Inferenzzeit in Sekunden
