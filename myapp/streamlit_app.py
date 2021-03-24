@@ -1,7 +1,12 @@
 import streamlit as st
 import pandas as pd
-from src import cleaning
+from src.preprocessing import cleaning
+#from notebook.data_preprocessing import df
+import pickle 
 
+
+model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\model\log_reg_model.pkl", "rb" ))
+col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\src\preprocessing\col_transformer.pkl", "rb" ))
 # import col_transformer.pkl
 # import model.pkl
 
@@ -9,42 +14,40 @@ st.write("""
 # Simple HR Prediction App!
 """)
 
-st.sidebar.header('User Input Parameters')
 
-def user_input_features():
-    sepal_length = st.sidebar.slider('Sepal length', 4.3, 7.9, 5.4)
-    sepal_width = st.sidebar.slider('Sepal width', 2.0, 4.4, 3.4)
-    petal_length = st.sidebar.slider('Petal length', 1.0, 6.9, 1.3)
-    petal_width = st.sidebar.slider('Petal width', 0.1, 2.5, 0.2)
-    data = {'sepal_length': sepal_length,
-            'sepal_width': sepal_width,
-            'petal_length': petal_length,
-            'petal_width': petal_width}
-    features = pd.DataFrame(data, index=[0])
-    return features
+st.sidebar.header('Data Set')
 
-df = user_input_features()
+dataset_name = st.sidebar.selectbox(
+    'Select Dataset',
+    ("All","Jan","Feb","Mar")
+)
 
 
-st.subheader('User Input parameters')
-st.write(df)
+from src.predictions.sql_connection import SQL
+c = SQL("localhost","root",123456,"hr_analytics","aug_test")
+data = c.query_data()
 
-iris = datasets.load_iris()
-X = iris.data
-Y = iris.target
+data = cleaning.data_cleaning(data)
+#print(data[data['experience'].isnull()])
+#data.fillna("unknown",inplace=True)
+print(data.isnull().sum())
+print(data[data.experience == "unknown"])
 
-clf = RandomForestClassifier()
-clf.fit(X, Y)
+#st.write(data.info())
 
-prediction = clf.predict(df)
-prediction_proba = clf.predict_proba(df)
+scaled_X = col_transformer.transform(data)
+#X = data.drop(columns="target",inplace=True)
 
-st.subheader('Class labels and their corresponding index number')
-st.write(iris.target_names)
+#data -> coltrans
 
-st.subheader('Prediction')
-st.write(iris.target_names[prediction])
-#st.write(prediction)
+y_pred=model.predict(scaled_X)
+y_pred_proba= model.predict_proba(scaled_X)
+
+#st.subheader('Class labels and their corresponding index number')
+
+
+st.subheader('Looking for a new Job')
+st.write(y_pred)
 
 st.subheader('Prediction Probability')
-st.write(prediction_proba)
+st.write(y_pred_proba)
