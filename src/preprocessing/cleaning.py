@@ -1,21 +1,29 @@
 
 def data_cleaning(df):
     import pandas as pd
- 
+    import numpy as np
+    #df_id = df["enrollee_id"]
+    # Drop id
+    df.drop(columns= ["enrollee_id"],inplace=True)
     # Create a new feature to indicate wheter an individual provided all information or not
     df.loc[df.isnull().values.any(), 'all_information'] = 0
     df.loc[df.notnull().values.any(), 'all_information'] = 1
-  
-    # Drop id
-    df.drop(columns= ["enrollee_id"],inplace=True)
-
-    # Replace NANs
-    df['gender']=df["gender"].fillna('Other')
     df["all_information"]=df["all_information"].fillna(0)
-    df=df.fillna("unknown")
     
-
-
+    # Clean gender
+    #df['gender']=df["gender"].fillna('Other')
+   
+    # Clean NAN
+    numerical_col = df.select_dtypes(include=["int64","float64"]).columns
+    categorical_col = df.select_dtypes(include=["object"]).columns
+    
+    
+    ## Call function to create new category for variables
+    for Columns in [categorical_col]:
+        
+        df[categorical_col] = np.where(df[categorical_col].isnull(),"unknown",df[categorical_col]) 
+   
+   
     # Order education
     education = {"unknown":0,"Primary School":1,"High School":2, "Graduate":3,"Masters":4,"Phd":5}
     df["education_level"].map(education)
@@ -30,7 +38,7 @@ def data_cleaning(df):
     df["enrolled_university"]=df["enrolled_university"].map(enrolled_university)
 
     # Order relevemt experience
-    relevent_experience={"No relevent experience":0, "Has relevent experience":1}
+    relevent_experience={"unknown":0,"No relevent experience":0, "Has relevent experience":1}
     df['relevent_experience']=df['relevent_experience'].map(relevent_experience)
     
     # Clean Experience Column
@@ -46,7 +54,6 @@ def data_cleaning(df):
     df.last_new_job.replace("unknown","0",inplace=True)
     df.last_new_job = pd.to_numeric(df.last_new_job)
 
-    df=df.fillna("unknown")
-    df.replace("unknown",0,inplace=True)
-
+    df.fillna(df.mean(), inplace=True)
+    
     return df

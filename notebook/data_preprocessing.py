@@ -11,8 +11,10 @@ df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tabl
 #df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\data\raw\aug_train.csv")
 
 from src.preprocessing import cleaning
-print(df.info())
+
 df = cleaning.data_cleaning(df)
+    
+ ## Call function to create new category for variables
 print(df.isnull().sum())
 # Data split in Training and Test data
 from src.preprocessing.data_split import Split

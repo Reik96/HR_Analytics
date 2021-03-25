@@ -14,9 +14,8 @@ class ColTransformer:
 
         # Distinguish columns into numerical and categorical
         numerical_col = self.X_train.select_dtypes(include=["int64","float64"]).columns
-        #categorical_col = self.X_train.select_dtypes(include=["object"]).columns
         categorical_col = self.X_train.select_dtypes(include=["object"]).columns
-        #le_col = [,"education_level"]
+        
         # Column transformation
         col_transformer = ColumnTransformer(
                             transformers=[

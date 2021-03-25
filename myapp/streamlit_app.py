@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from src.preprocessing import cleaning
-#from notebook.data_preprocessing import df
 import pickle 
 
 
@@ -19,34 +18,30 @@ st.sidebar.header('Data Set')
 
 dataset_name = st.sidebar.selectbox(
     'Select Dataset',
-    ("All","Jan","Feb","Mar")
+    ("Training","Test")
 )
 
+#if dataset_name == "Test":
 
 from src.predictions.sql_connection import SQL
 c = SQL("localhost","root",123456,"hr_analytics","aug_test")
-data = c.query_data()
+df = c.query_data()
 
-data = cleaning.data_cleaning(data)
-#print(data[data['experience'].isnull()])
-#data.fillna("unknown",inplace=True)
-print(data.isnull().sum())
-print(data[data.experience == "unknown"])
+df = cleaning.data_cleaning(df)
 
-#st.write(data.info())
 
-scaled_X = col_transformer.transform(data)
-#X = data.drop(columns="target",inplace=True)
 
-#data -> coltrans
+scaled_X = col_transformer.transform(df)
 
 y_pred=model.predict(scaled_X)
 y_pred_proba= model.predict_proba(scaled_X)
 
-#st.subheader('Class labels and their corresponding index number')
+print(y_pred)
+st.subheader('Class Labels')
+st.write(pd.DataFrame.from_dict(data = {'Label': ["No","Yes"]}))
 
+st.subheader('Data Scientists that are looking for a new job')
 
-st.subheader('Looking for a new Job')
 st.write(y_pred)
 
 st.subheader('Prediction Probability')
