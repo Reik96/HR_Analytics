@@ -55,5 +55,8 @@ def data_cleaning(df):
     df.last_new_job = pd.to_numeric(df.last_new_job)
 
     df.fillna(df.mean(), inplace=True)
-    
+
     return df
+
+if __name__ == "__main__":
+    data_cleaning(df)

@@ -20,3 +20,6 @@ class Split:
         # Split in train and test set
         X_train,X_test,y_train,y_test=train_test_split(X,y,stratify=y, test_size=self.test_size,random_state=self.seed,shuffle=self.shuffle)
         return X_train,X_test,y_train,y_test
+
+if __name__ == "__main__":
+   Split()

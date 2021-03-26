@@ -33,3 +33,7 @@ class ColTransformer:
 
         pickle.dump(col_transformer,open("col_transformer.pkl","wb"))
         return scaled_X_train, scaled_X_test
+
+
+if __name__ == "__main__":
+   ColTransformer()

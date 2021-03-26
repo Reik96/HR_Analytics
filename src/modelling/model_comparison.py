@@ -77,3 +77,7 @@ class ModelComp:
     #def imbalance():
 
         # smote technique
+
+
+if __name__ == "__main__":
+   ModelComp()

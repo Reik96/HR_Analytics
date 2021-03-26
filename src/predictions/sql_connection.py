@@ -68,3 +68,5 @@ class SQL:
 #c= c.insert_data(y_pred)
 #print(c)
 
+if __name__ == "__main__":
+   SQL()
