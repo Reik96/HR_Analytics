@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 from src.preprocessing import cleaning
 from src.predictions.sql_connection import SQL
 import pickle 
@@ -82,14 +83,15 @@ def main():
     )
 
     if menu_action == "Predictions":
-        st.subheader('Class Labels')
-        st.write(pd.DataFrame.from_dict(data = {'Label': ["No","Yes"]}))
-
+      
         st.subheader('Data Scientists that are looking for a new job')
         df_conc = predict_values(scaled_X,df)
+        st.subheader('Class Labels')
+        st.write(pd.DataFrame.from_dict(data = {'Average Probability': [np.mean(df_conc["No - Probability"]),np.mean(df_conc["Yes - Probability"])]}))
         st.write(df_conc)
         csv_downloader(df_conc)
 
+       
 
     if menu_action == "Visualizations":
         st.vega_lite_chart(df_conc, {
