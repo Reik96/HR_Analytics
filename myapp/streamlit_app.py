@@ -9,8 +9,8 @@ import time
 
 timestring = time.strftime("%Y%m%d")
 
-model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\model\log_reg_model.pkl", "rb" ))
-col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\src\preprocessing\col_transformer.pkl", "rb" ))
+model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\model\log_reg_model.pkl", "rb" ))
+col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\src\preprocessing\col_transformer.pkl", "rb" ))
 
 
 def data_loading(data_action):

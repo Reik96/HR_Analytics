@@ -6,9 +6,9 @@ import numpy as np
 seed = 42
 
 # Read File
-df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\data\raw\aug_test.csv")
+df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\data\raw\aug_test.csv")
 
-#df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\data\raw\aug_train.csv")
+#df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\data\raw\aug_train.csv")
 
 from src.preprocessing import cleaning
 
