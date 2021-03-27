@@ -2,7 +2,7 @@
 def data_cleaning(df):
     import pandas as pd
     import numpy as np
-    #df_id = df["enrollee_id"]
+   # df_id = df["enrollee_id"]
     # Drop id
     df.drop(columns= ["enrollee_id"],inplace=True)
     # Create a new feature to indicate wheter an individual provided all information or not
@@ -13,17 +13,19 @@ def data_cleaning(df):
     # Clean gender
     #df['gender']=df["gender"].fillna('Other')
    
-    # Clean NAN
-    numerical_col = df.select_dtypes(include=["int64","float64"]).columns
-    categorical_col = df.select_dtypes(include=["object"]).columns
+ 
     
+    #df = df.apply(lambda x: x.fillna(x.mean()) if x.dtype.kind in 'biufc' else x.fillna("unknown"))
     
-    ## Call function to create new category for variables
-    for Columns in [categorical_col]:
-        
-        df[categorical_col] = np.where(df[categorical_col].isnull(),"unknown",df[categorical_col]) 
-   
-   
+    ## Call function to create new category for variables      
+    df["gender"].fillna("unknown",inplace=True)
+    df["gender"].replace("","unknown",inplace=True)
+    df["major_discipline"].fillna("unknown",inplace=True)
+    df["major_discipline"].replace("","unknown",inplace=True)
+    df["company_type"].fillna("unknown",inplace=True)
+    df["company_type"].replace("","unknown",inplace=True)
+
+
     # Order education
     education = {"unknown":0,"Primary School":1,"High School":2, "Graduate":3,"Masters":4,"Phd":5}
     df["education_level"].map(education)

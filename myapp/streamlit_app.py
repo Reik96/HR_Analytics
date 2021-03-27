@@ -9,8 +9,8 @@ import time
 
 timestring = time.strftime("%Y%m%d")
 
-model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\model\log_reg_model.pkl", "rb" ))
-col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\HR_Prediction_App\src\preprocessing\col_transformer.pkl", "rb" ))
+model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\model\log_reg_model.pkl", "rb" ))
+col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\src\preprocessing\col_transformer.pkl", "rb" ))
 
 
 def data_loading(data_action):
@@ -88,6 +88,8 @@ def main():
         df_conc = predict_values(scaled_X,df)
         st.subheader('Class Labels')
         st.write(pd.DataFrame.from_dict(data = {'Average Probability': [np.mean(df_conc["No - Probability"]),np.mean(df_conc["Yes - Probability"])]}))
+        
+        df_conc = pd.concat([df_id,df_conc], axis=1)
         st.write(df_conc)
         csv_downloader(df_conc)
 
