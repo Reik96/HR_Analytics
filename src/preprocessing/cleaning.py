@@ -24,7 +24,8 @@ def data_cleaning(df):
     df["major_discipline"].replace("","unknown",inplace=True)
     df["company_type"].fillna("unknown",inplace=True)
     df["company_type"].replace("","unknown",inplace=True)
-
+    df["education_level"].fillna("unknown",inplace=True)
+    df["education_level"].replace("","unknown",inplace=True)
 
     # Order education
     education = {"unknown":0,"Primary School":1,"High School":2, "Graduate":3,"Masters":4,"Phd":5}
@@ -56,7 +57,7 @@ def data_cleaning(df):
     df.last_new_job.replace("unknown","0",inplace=True)
     df.last_new_job = pd.to_numeric(df.last_new_job)
 
-    df.fillna(df.mean(), inplace=True)
+    df.fillna(df.mean().round(0), inplace=True)
 
     return df
 

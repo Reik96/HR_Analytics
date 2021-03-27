@@ -7,13 +7,14 @@ class ModelComp:
     def __init__(self,seed=42):
         self.seed = seed 
     
-    def models(self, lr=None,knn=None,rf=None,svm=None):
+    def models(self, lr=None,knn=None,rf=None,svm=None, xgboost=None):
        # from imblearn.over_sampling import SMOTE,RandomOverSampler
         # Classifier
         self.lr = lr
         self.rf = rf
         self.knn = knn 
         self.svm = svm 
+        self.xgboost = xgboost
         
         if self.lr =="lr":
        
@@ -32,11 +33,15 @@ class ModelComp:
             from sklearn.svm import SVC
             self.svm = SVC(random_state=self.seed,probability=True)
         
+        if self.xgboost== "xgboost":
+            from xgboost import XGBClassifier
+            self.xgboost = XGBClassifier(random_state=self.seed)
 
         return [("Logistische Regression",lr),
                  ("KNN",knn),
               ("Random Forest",rf),
-              ("SVM",svm)
+              ("SVM",svm),
+              ("XGBOOST",xgboost)
               ]
    
     def comparison(self,scaled_X_train,y_train,clf=None,splits=5):
@@ -47,7 +52,7 @@ class ModelComp:
         from imblearn.over_sampling import SMOTE
 
         kfold = StratifiedKFold(n_splits=splits,shuffle=True, random_state=self.seed)
-        classifier = self.models(self.lr,self.knn,self.rf,self.svm)
+        classifier = self.models(self.lr,self.knn,self.rf,self.svm,self.xgboost)
 
         cv_scores = []
         cv_score_time =[]

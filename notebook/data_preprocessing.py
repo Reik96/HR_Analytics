@@ -14,8 +14,6 @@ from src.preprocessing import cleaning
 
 df = cleaning.data_cleaning(df)
 
- ## Call function to create new category for variables
-print(df.isnull().sum())
 # Data split in Training and Test data
 from src.preprocessing.data_split import Split
 

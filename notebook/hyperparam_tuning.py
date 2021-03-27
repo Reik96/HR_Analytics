@@ -8,24 +8,30 @@ import pandas as pd
 from skopt.space import Real,Categorical,Integer
 from skopt import BayesSearchCV
 from skopt.space import Integer, Real
-
+from sklearn.ensemble import RandomForestClassifier
 #Zufallszahl
 SEED=42
 from sklearn.linear_model import LogisticRegression
 lr = LogisticRegression(max_iter=1000)
+#lr = RandomForestClassifier(random_state=42)
 #clf der logistischen Regression zuweisen
 clf = lr
 #Suchraum für Bayes`sche Optimierung mit Gauss-Prozess
-param = {"solver":['newton-cg', 'lbfgs', 'liblinear','sag','saga'],
-        "C":[0.0001,0.001,0.01,1,10,100],
-        "max_iter":[100,1000,1000,5000]}
+#param = {"solver":['newton-cg', 'lbfgs', 'liblinear','sag','saga'],
+  #      "C":[0.0001,0.001,0.01,1,10,100],
+ #       "max_iter":[100,1000,1000,5000]}
 
-
+#param = {'bootstrap': [True, False],
+ #       'max_depth': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, None],
+  #      'max_features': ['auto', 'sqrt'],
+   #     'min_samples_leaf': [1, 2, 4],
+    #    'min_samples_split': [2, 5, 10],
+     #   'n_estimators': [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]}
 
 #Bayes´sche Optimierung
 from skopt import BayesSearchCV
 from sklearn.model_selection import RandomizedSearchCV,GridSearchCV
-random_search=GridSearchCV(clf, param,cv=5,n_jobs=-1,scoring="f1")
+random_search=RandomizedSearchCV(clf, param,cv=5,n_jobs=-1)
 
 clf_opt=random_search.fit(scaled_X_train,y_train)
 
