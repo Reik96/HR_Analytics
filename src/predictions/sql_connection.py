@@ -30,34 +30,21 @@ class SQL:
   
     def insert_data(self,predictions):
 
-        self.predictions = predictions.astype(int)
+       # self.predictions = predictions.astype(int)
         #self.predictions = predictions.tolist()
         #Insert data to database
         import mysql.connector
         from mysql.connector import MySQLConnection,Error
         import pandas as pd
         import numpy as np
-
+        import pymysql
+        from sqlalchemy import create_engine
+        
         try:
-            conn = mysql.connector.connect(
-                host=self.host,
-                user=self.user,
-                password=str(self.pw),
-                db = self.db,
-            )
-            cursor = conn.cursor()
-            query = "INSERT INTO " + str(self.table) +"(looking_for_job) VALUES (%s)"
-            #pred = self.predictions.tolist()
-            pred = ("1","0")
-
-            cursor.executemany(query,pred)
-           # prediction_value= cursor.fetchall()
-            conn.commit()
             
-            msg = print(cursor.rowcount, "was inserted.")
-            cursor.close()
-            #return print(prediction_value)
-            return print(self.predictions)
+            engine = create_engine("mysql+pymysql://"+ self.user + ":" + str(self.pw) + "@" + self.host + "/" + self.db )
+            predictions.to_sql(con=engine, name='predictions', if_exists='replace',index =True)
+            return print("Data stored in SQL")
         except Error as e:
             print(e)
 
