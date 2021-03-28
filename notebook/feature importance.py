@@ -1,7 +1,7 @@
 #from model_evaluation import lr
 import pandas as pd 
 import numpy as np 
-from src.modelling.feature_importance import get_feature_names
+from src.modelling.feature_names import get_feature_names
 from data_preprocessing import scaled_X_train,y_train
 import pickle 
 import matplotlib.pyplot as plt
@@ -31,7 +31,7 @@ df_feat["Feature"]=feat
 
 # Diagramm der wichtigsten Features
 plt.barh(df_feat["Feature"],df_feat["coefficients"])
-plt.title("RelevantFeatures")
+plt.title("Relevant Features")
 plt.ylabel("Features")
 plt.xlabel("Coefficient")
 plt.show()
