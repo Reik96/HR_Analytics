@@ -2,7 +2,7 @@
 import pandas as pd 
 import numpy as np 
 from src.modelling.feature_names import get_feature_names
-from data_preprocessing import scaled_X_train,y_train
+from data_preprocessing import scaled_X_train,y_train,X_train
 import pickle 
 import matplotlib.pyplot as plt
 
@@ -16,22 +16,22 @@ scaled_X_names = get_feature_names(col_transformer)
 from sklearn.feature_selection import RFE
 
 #rekursive Feature Elimination, begrenzt auf die 20 relevantesten Features
-rfe = RFE(model, 20)
+rfe = RFE(model,10)
 rfe.fit(scaled_X_train, y_train)
 coefs= np.transpose(rfe.estimator_.coef_)
 feat = [feature for feature, rank in zip(scaled_X_names, rfe.ranking_) if rank==1]
-
+print(rfe.support_)
+print(rfe.ranking_)
 print(feat)
 
-df_feat = pd.DataFrame(data=coefs,columns=["coefficients"])
-df_feat["Feature"]=feat
+#df_feat = pd.DataFrame(data=coefs,columns=["coefficients"])
+df_feat = pd.DataFrame({"Ranking":rfe.ranking_,
+                        "Feature":scaled_X_names
+                        })
+                       # "Feature":feat})#,
+                     #   "Coefficient":coefs})
+#df_feat["Feature"]=feat
+df_feat = df_feat.sort_values(by="Ranking",ascending=True)
+print(df_feat[df_feat["Ranking"]<11])
 
-#df_feat.to_excel("Feature_Importance_Wrapper.xlsx")
 
-
-# Diagramm der wichtigsten Features
-plt.barh(df_feat["Feature"],df_feat["coefficients"])
-plt.title("Relevant Features")
-plt.ylabel("Features")
-plt.xlabel("Coefficient")
-plt.show()
