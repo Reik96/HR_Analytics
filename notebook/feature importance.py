@@ -18,20 +18,12 @@ from sklearn.feature_selection import RFE
 #rekursive Feature Elimination, begrenzt auf die 20 relevantesten Features
 rfe = RFE(model,10)
 rfe.fit(scaled_X_train, y_train)
-coefs= np.transpose(rfe.estimator_.coef_)
-feat = [feature for feature, rank in zip(scaled_X_names, rfe.ranking_) if rank==1]
-print(rfe.support_)
-print(rfe.ranking_)
-print(feat)
-
-#df_feat = pd.DataFrame(data=coefs,columns=["coefficients"])
 df_feat = pd.DataFrame({"Ranking":rfe.ranking_,
                         "Feature":scaled_X_names
                         })
-                       # "Feature":feat})#,
-                     #   "Coefficient":coefs})
-#df_feat["Feature"]=feat
+   
 df_feat = df_feat.sort_values(by="Ranking",ascending=True)
+
 print(df_feat[df_feat["Ranking"]<11])
 
 

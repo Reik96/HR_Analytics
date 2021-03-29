@@ -7,6 +7,11 @@ from src.predictions.sql_connection import SQL
 import pickle 
 import base64
 import time
+import gspread
+from gspread_dataframe import set_with_dataframe
+import df2gspread as d2g
+from oauth2client.service_account import ServiceAccountCredentials
+
 
 timestring = time.strftime("%Y%m%d")
 
@@ -28,11 +33,21 @@ def data_loading(data_action):
 
     return df
 
-def data_storing(predictions):
+def data_storing_sql(predictions):
 
        # conn = SQL("localhost","root",123456,"hr_analytics")
         conn = SQL("localhost","root",123456,"hr_analytics","predictions")
         conn.insert_data(predictions)
+
+
+def data_storing_gs(df_conc):
+
+    #Loads df into Google Spreadsheets
+    gc = gspread.service_account(filename=r'C:\Users\rsele\Downloads\hr-analytics-309111-dd74d95fb582.json') #-> Credential File needed
+    sh = gc.open('HR_Analytics')
+    worksheet = sh.get_worksheet(0) 
+    set_with_dataframe(worksheet, df_conc) 
+    worksheet.update([df_conc.columns.values.tolist()] + df_conc.values.tolist())
 
 def predict_values(scaled_X,df):
 
@@ -61,61 +76,3 @@ def csv_downloader(df_conc):
 
 
 
-
-   # def plot_values():
-
-
-def main():
-
-    st.write("""
-    # Simple HR Prediction App!""")
-    st.sidebar.header('Menu')
-    
-    data_action = st.sidebar.selectbox(
-        'Data Source',
-        ("SQL","CSV")
-    )
-
-    df = data_loading(data_action)
-    df_id = df["enrollee_id"]
-    df = cleaning.data_cleaning(df)
-    scaled_X = col_transformer.transform(df)
-
-    menu_action = st.sidebar.selectbox(
-        'Data Prediction & Analytics',
-        ("Predictions","Visualizations")
-    )
-
-    if menu_action == "Predictions":
-      
-        
-        df_conc = predict_values(scaled_X,df)
-        st.subheader('Class Labels')
-        st.write(pd.DataFrame.from_dict(data = {'Average Probability': [np.mean(df_conc["No - Probability"]),np.mean(df_conc["Yes - Probability"])]}))
-        
-        st.subheader('Data Scientists that are looking for a new job')
-        df_conc = pd.concat([df_id,df_conc], axis=1)
-        st.write(df_conc)
-        
-        st.subheader("Save Predictions")
-        csv_downloader(df_conc)
-        
-        sql_button = st.button("Store Data in MySQL")
-
-        if sql_button == True:
-            
-            data_storing(df_conc)
-       
-
-    if menu_action == "Visualizations":
-        html_temp = """<div class='tableauPlaceholder' id='viz1616928180032' style='position: relative'><noscript><a href='#'><img alt='Blatt 4 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;Test_Viz_16169281534280&#47;Blatt4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Test_Viz_16169281534280&#47;Blatt4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;Test_Viz_16169281534280&#47;Blatt4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1616928180032');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>"""
-        components.html(html_temp,width = 800, height = 600)
-        html_temp = """<div class='tableauPlaceholder' id='viz1616928180032' style='position: relative'><noscript><a href='#'><img alt='Blatt 4 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;Test_Viz_16169281534280&#47;Blatt4&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='Test_Viz_16169281534280&#47;Blatt4' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Te&#47;Test_Viz_16169281534280&#47;Blatt4&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='language' value='de' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById('viz1616928180032');                    var vizElement = divElement.getElementsByTagName('object')[0];                    vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';                    var scriptElement = document.createElement('script');                    scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>"""
-        components.html(html_temp,width = 800, height = 600)
-
-
-
-
-
-if __name__ == '__main__':
-	main()
