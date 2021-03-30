@@ -64,7 +64,7 @@ class ModelComp:
     
             if clf is not None:
                 scaled_X_train,y_train = SMOTE(random_state=self.seed).fit_resample(scaled_X_train,y_train)
-                score = cross_validate(clf,scaled_X_train,y_train,cv=kfold)
+                score = cross_validate(clf,scaled_X_train,y_train,cv=kfold,scoring="accuracy")
                 cv_scores.append(score["test_score"].mean()*100) # durchschnittliches Validierungsergebnis in Prozent
                 cv_score_time.append(score["score_time"].mean()) # durchschnittliche Inferenzzeit in Sekunden
                 cv_fit_time.append(score["fit_time"].mean()) # durchschnittliche Trainingszeit in Sekunden

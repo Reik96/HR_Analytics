@@ -1,86 +1,96 @@
+import time
+tic=time.clock() # Timer starten
+import pandas
+from keras.models import Sequential
+from keras.layers import Dense,Dropout
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.model_selection import cross_val_score
 
-from notebook.data_preprocessing import scaled_X_train,scaled_X_test,y_train,y_test, seed,X_train
-from imblearn.over_sampling import SMOTE
 from sklearn.metrics import classification_report,confusion_matrix
-import matplotlib.pyplot as plt
-import seaborn as sns
-import pandas as pd
-from skopt.space import Real,Categorical,Integer
-from skopt import BayesSearchCV
-from skopt.space import Integer, Real
-from sklearn.ensemble import RandomForestClassifier
+
+import numpy as np
+from data_preprocessing import scaled_X_train,scaled_X_test,y_test,y_train
+from keras.callbacks import EarlyStopping
+#import h5py
+from keras.models import load_model
+from sklearn.model_selection import StratifiedKFold, cross_validate
+from keras.optimizers import Adam,SGD
+#from skopt import BayesSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+
 #Zufallszahl
 SEED=42
-from sklearn.linear_model import LogisticRegression
-lr = LogisticRegression(max_iter=1000)
-#lr = RandomForestClassifier(random_state=42)
-#clf der logistischen Regression zuweisen
-clf = lr
-#Suchraum für Bayes`sche Optimierung mit Gauss-Prozess
-#param = {"solver":['newton-cg', 'lbfgs', 'liblinear','sag','saga'],
-  #      "C":[0.0001,0.001,0.01,1,10,100],
- #       "max_iter":[100,1000,1000,5000]}
 
-#param = {'bootstrap': [True, False],
- #       'max_depth': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, None],
-  #      'max_features': ['auto', 'sqrt'],
-   #     'min_samples_leaf': [1, 2, 4],
-    #    'min_samples_split': [2, 5, 10],
-     #   'n_estimators': [200, 400, 600, 800, 1000, 1200, 1400, 1600, 1800, 2000]}
+#Foldanzahl
+kfold = StratifiedKFold(n_splits=5,shuffle=True, random_state=SEED)
 
-#Bayes´sche Optimierung
-from skopt import BayesSearchCV
-from sklearn.model_selection import RandomizedSearchCV,GridSearchCV
-random_search=RandomizedSearchCV(clf, param,cv=5,n_jobs=-1)
+#Eingabevektor
+X_col = scaled_X_train[-1]
 
-clf_opt=random_search.fit(scaled_X_train,y_train)
+#Function zur Erstellung eines neuronalen Netzes
+def create_model(learning_rate, activation, n_neurons,hidden_layer,drop):
 
-# Beste Parametereinstellungen
+    # Eingabevektor
+    X_col = scaled_X_train.shape[-1]
+    #Adam-Optimizer mit Lernrate
+    opt = Adam(lr = learning_rate)
+    #Abbruchkriterium, wenn Validierungsverlust über 3 Epochen nicht kleiner wird
+    early_stopping_monitor = [EarlyStopping(monitor="val_loss",patience=3)]
+   
+    # Modell
+    model = Sequential()
+    model.add(Dense(n_neurons, input_dim=X_col, activation= activation))
+    
+    #Für Ermittlung der geeigneten Anzahl an Hidden Layer
+    for i in range(int(hidden_layer)):
+        model.add(Dense(n_neurons, activation=activation))
+        model.add(Dropout(drop))
+    
+    model.add(Dense(n_neurons, input_dim=X_col, activation= activation))
+
+    #Output Layer mit Sigmoidfunktion - Ermittlung der Klassenwahrscheinlichkeit
+    model.add(Dense(1, activation="sigmoid"))
+    
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+    
+    
+    return model
+  
+
+# Import KerasClassifier aus keras scikit learn wrappers
+from keras.wrappers.scikit_learn import KerasClassifier
+from skopt.space import Real,Categorical,Integer
+
+# KerasClassifier
+model = KerasClassifier(build_fn = create_model)
+
+# Suchraum
+# params = {"activation":Categorical(["relu","sigmoid"]), "batch_size":Integer(128,512), 
+#           "epochs":Integer(50,100), "n_neurons":Integer(16,64),"learning_rate":Real(0.001, 0.1),
+#           "hidden_layer":Integer(2,4),"drop":Real(0.1,0.5)}
+
+params = {"activation":["relu","sigmoid"], "batch_size":[32,64,128,512], 
+          "epochs":[10,25,50,100], "n_neurons":[4,8,16,32,64],"learning_rate":[0.001, 0.01,0.1],
+          "hidden_layer":[2,3,4],"drop":[0.1,0.2,0.3]}
+
+# Bayes´sche Optimierung mit Gauss-Prozess
+# Die erzeugte Function und der angegebene Suchraum bewirken, dass verschiedene Netzwerkarchitekturen berücksichtigt werden
+bayes_search=RandomizedSearchCV(model, params,cv=kfold,scoring="accuracy",random_state=SEED, njobs = -1)
+
+clf_opt=bayes_search.fit(scaled_X_train,y_train)
+
+# Optimale Parametereinstellungen
 print(clf_opt.best_params_)
 print(clf_opt.best_estimator_)
 
 
-# Modell trainieren und Vorhersagekraft an Testdaten testen
-lr.fit(scaled_X_train,y_train)
-y_pred= clf_opt.predict(scaled_X_test)
+#save model
+#clf_opt.best_estimator_.save(my_model)
 
-# Konfusionsmatrix
-conf_matrix= confusion_matrix(y_test, y_pred,labels=[0,1])
-f, ax = plt.subplots(figsize=(8, 4))
-sns.heatmap(conf_matrix, annot=True, 
-            fmt="d", linewidths=.5, cmap=plt.cm.Reds)
+#Klassifikationsreport
+y_pred=clf_opt.best_estimator_.predict(scaled_X_test.toarray())
+y_pred =(y_pred>0.5)
+print(classification_report(y_test,y_pred))
+toc=time.clock() # Timer beenden
 
-plt.title("Konfusionsmatrix optimierte logisische Regression", fontsize=20)
-ax.set_xticklabels(["Ermittelte Klasse 0",
-                    "Ermittelte Klasse 1",
-                   ])
-ax.set_yticklabels(["Tatsächliche Klasse 0",
-                    "Tatsächliche Klasse 1",
-            
-                    ], rotation=360)
-plt.show()
-
-
-import sklearn.metrics as metrics
-
-#AUC und ROC
-probs = clf_opt.predict_proba(scaled_X_test)
-preds = probs[:,1]
-fpr, tpr, threshold = metrics.roc_curve(y_test, preds)
-roc_auc = metrics.auc(fpr, tpr)
-
-print("{:s}: {:.2f}".format("AUC optimierte logistische Regression: ",roc_auc))
-
-
-      
-plt.title('ROC optimierte logistische Regression')
-plt.plot(fpr, tpr, 'b', label = 'AUC = %0.2f' % roc_auc)
-plt.legend(loc = 'lower right')
-plt.plot([0, 1], [0, 1],'k--')
-plt.xlim([0, 1])
-plt.ylim([0, 1])
-plt.ylabel('True Positive Rate')
-plt.xlabel('False Positive Rate')
-plt.show()
-
-print("optimierte logistische Regression: \n",classification_report(y_test,y_pred,digits=4))
+print(toc-tic)
