@@ -15,7 +15,7 @@ class ColTransformer:
         # Distinguish columns into numerical and categorical
         numerical_col = self.X_train.select_dtypes(include=["int64","float64"]).columns
         categorical_col = self.X_train.select_dtypes(include=["object"]).columns
-        
+       
         # Column transformation
         col_transformer = ColumnTransformer(
                             transformers=[
@@ -31,7 +31,7 @@ class ColTransformer:
         scaled_X_train = col_transformer.fit_transform(self.X_train)
         scaled_X_test = col_transformer.transform(self.X_test)
 
-        pickle.dump(col_transformer,open("col_transformer.pkl","wb"))
+      #  pickle.dump(col_transformer,open("col_transformer.pkl","wb"))
         return scaled_X_train, scaled_X_test
 
 

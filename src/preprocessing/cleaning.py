@@ -2,7 +2,7 @@
 def data_cleaning(df):
     import pandas as pd
     import numpy as np
-   # df_id = df["enrollee_id"]
+
     # Drop id
     df.drop(columns= ["enrollee_id"],inplace=True)
     # Create a new feature to indicate wheter an individual provided all information or not

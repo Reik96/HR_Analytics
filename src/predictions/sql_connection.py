@@ -7,7 +7,7 @@ class SQL:
         self.db = db
         self.table = table
 
-    def query_data(self):
+    def query_data(self,latest = False):
         # connect with the desired DB
         import mysql.connector
         from mysql.connector import MySQLConnection,Error
@@ -20,7 +20,11 @@ class SQL:
                 db = self.db,
             )
             cursor = conn.cursor(buffered=True)
-            query = "SELECT * FROM " + self.table
+            query = "SELECT * FROM " + self.table 
+           
+            if latest == True:
+                query= " SELECT * FROM hr_analytics.aug_train WHERE  enrollee_id NOT IN (SELECT enrollee_id FROM hr_analytics.predictions)"
+           
             df = pd.read_sql(query,con=conn)
             conn.close()
             cursor.close()
@@ -43,7 +47,7 @@ class SQL:
         try:
             
             engine = create_engine("mysql+pymysql://"+ self.user + ":" + str(self.pw) + "@" + self.host + "/" + self.db )
-            predictions.to_sql(con=engine, name='predictions', if_exists='replace',index =True)
+            predictions.to_sql(con=engine, name='predictions', if_exists='append',index =True)
             return print("Data stored in SQL")
         except Error as e:
             print(e)

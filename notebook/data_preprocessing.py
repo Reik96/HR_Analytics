@@ -27,4 +27,3 @@ from src.preprocessing.col_transformer import ColTransformer
 col_trans = ColTransformer(X_train,X_test)
 
 scaled_X_train,scaled_X_test= col_trans.col_transformer()
-

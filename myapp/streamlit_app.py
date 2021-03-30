@@ -9,7 +9,7 @@ import base64
 import time
 import gspread
 from gspread_dataframe import set_with_dataframe
-import df2gspread as d2g
+from df2gspread import df2gspread as d2g
 from oauth2client.service_account import ServiceAccountCredentials
 
 
@@ -21,11 +21,15 @@ col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Proj
 
 def data_loading(data_action):
 
-    if data_action =="SQL":    
+    if data_action =="All SQL Data":    
         conn = SQL("localhost","root",123456,"hr_analytics","aug_test")
         df = conn.query_data()
     
-    elif data_action == "CSV": 
+    elif data_action =="Latest SQL Data":    
+        conn = SQL("localhost","root",123456,"hr_analytics","aug_test")
+        df = conn.query_data(latest = True)
+    
+    elif data_action == "CSV File": 
         upload_file = st.sidebar.file_uploader("Upload CSV file")
        
         if upload_file is not None:
@@ -40,15 +44,28 @@ def data_storing_sql(predictions):
         conn.insert_data(predictions)
 
 
-def data_storing_gs(df_conc):
+def data_storing_gs(df,clear=False):
 
     #Loads df into Google Spreadsheets
-    gc = gspread.service_account(filename=r'C:\Users\rsele\Downloads\hr-analytics-309111-dd74d95fb582.json') #-> Credential File needed
+    gc = gspread.service_account(filename=r"C:\Users\rsele\OneDrive\Data Science\hr-analytics-309111-dd74d95fb582.json") #-> Credential File needed
     sh = gc.open('HR_Analytics')
-    worksheet = sh.get_worksheet(0) 
-    set_with_dataframe(worksheet, df_conc) 
-    worksheet.update([df_conc.columns.values.tolist()] + df_conc.values.tolist())
+    wks = sh.get_worksheet(0) 
 
+    if clear == True:
+        wks.clear()
+       # wks.set_dataframe(df, start=(1,1), extend=True)
+        set_with_dataframe(wks,df,row=1,col=1)
+
+    elif clear == False:
+        
+        df = df[df["enrollee_id"].notnull()]
+        df_list = df.values.tolist()
+
+        length = wks.get_all_records()
+
+        wks.append_rows(df_list, value_input_option='RAW', insert_data_option=None, table_range=None)
+      
+    
 def predict_values(scaled_X,df):
 
     y_pred =model.predict(scaled_X)
