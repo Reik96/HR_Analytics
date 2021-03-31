@@ -82,7 +82,9 @@ A closer look on the classification report and confusion matrix reveals, that th
 
 ### Final Thoughts
 
-tbd
+After finishing my first project where I actually delivered a ML Service it is time now to wrap up the benefits and potential weaknesses of it.
+TBD
+
 
 
 ## Resources: 
