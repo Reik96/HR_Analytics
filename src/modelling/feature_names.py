@@ -1,4 +1,4 @@
-#Die Funktion get_feature_names entstammt folgender Quelle:
+#This function is from the following resource:
 #https://johaupt.github.io/scikit-learn/tutorial/python/data%20processing/ml%20pipeline/model%20interpretation/columnTransformer_feature_names.html
 
 def get_feature_names(column_transformer):
@@ -71,55 +71,5 @@ def get_feature_names(column_transformer):
 
     return feature_names
 
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-def plot_learning_curve(estimator,title, X, y, axes=None, ylim=None,cv=None,
-                        n_jobs=None, train_sizes=np.linspace(.1, 1.0, 5)):
-
-    """ Function zur Erstellung von Lernkurven."""
-
-    import numpy as np
-    from sklearn.model_selection import learning_curve
-    import seaborn as sns
-    sns.set_style("darkgrid")
-    plt.grid()
-    
-    plt.xlabel("Trainingsdaten")
-    plt.ylabel("Trefferquote in Prozent")
-
-    train_sizes, train_scores, test_scores, fit_times, _ = \
-        learning_curve(estimator, X, y, cv=cv, n_jobs=n_jobs,
-                       train_sizes=train_sizes,
-                       return_times=True)
-    
-    
-    train_scores_mean = np.mean(train_scores, axis=1)
-    train_scores_std = np.std(train_scores, axis=1)
-    test_scores_mean = np.mean(test_scores, axis=1)
-    test_scores_std = np.std(test_scores, axis=1)
-    fit_times_mean = np.mean(fit_times, axis=1)
-    fit_times_std = np.std(fit_times, axis=1)
-    
-
-
-
-    # Plot learning curve
-    plt.grid()
-    plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
-                         train_scores_mean + train_scores_std, alpha=0.1,
-                         color="r")
-    plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
-                         test_scores_mean + test_scores_std, alpha=0.1,
-                         color="g")
-    plt.plot(train_sizes, train_scores_mean, 'o-', color="r",
-                 label="Trefferquote-Training")
-    plt.plot(train_sizes, test_scores_mean, 'o-', color="g",
-                 label="Trefferquote-Kreuzvalidierung")
-    plt.title(title)
-    plt.legend(loc="best")
-
-
-    return plt
+if __name__ == "__main__":
+    get_feature_names()

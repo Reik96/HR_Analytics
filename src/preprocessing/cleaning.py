@@ -9,15 +9,8 @@ def data_cleaning(df):
     df.loc[df.isnull().values.any(), 'all_information'] = 0
     df.loc[df.notnull().values.any(), 'all_information'] = 1
     df["all_information"]=df["all_information"].fillna(0)
-    
-    # Clean gender
-    #df['gender']=df["gender"].fillna('Other')
-   
- 
-    
-    #df = df.apply(lambda x: x.fillna(x.mean()) if x.dtype.kind in 'biufc' else x.fillna("unknown"))
-    
-    ## Call function to create new category for variables      
+
+    ## Replace NAN and empty fields with unknown     
     df["gender"].fillna("unknown",inplace=True)
     df["gender"].replace("","unknown",inplace=True)
     df["major_discipline"].fillna("unknown",inplace=True)
@@ -45,7 +38,6 @@ def data_cleaning(df):
     df['relevent_experience']=df['relevent_experience'].map(relevent_experience)
     
     # Clean Experience Column
-    #df.drop(df.index[df["experience"] == "unknown"], inplace = True)
     df.experience.replace(">20","20",inplace=True)
     df.experience.replace("<1","0",inplace=True)
     df.experience.replace("unknown","0",inplace=True)
@@ -57,6 +49,7 @@ def data_cleaning(df):
     df.last_new_job.replace("unknown","0",inplace=True)
     df.last_new_job = pd.to_numeric(df.last_new_job)
 
+    # Fill NAN in numerical columns with the mean
     df.fillna(df.mean().round(0), inplace=True)
 
     return df

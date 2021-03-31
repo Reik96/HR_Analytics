@@ -1,5 +1,6 @@
 class SQL:
-    
+    """SQL Class that connects to desired database to query and insert data.
+        Input arguments are host, user, password and database."""
     def __init__(self, host,user,pw,db,table):
         self.host = host
         self.user = user
@@ -33,11 +34,6 @@ class SQL:
             print(e)
   
     def insert_data(self,predictions):
-
-       # self.predictions = predictions.astype(int)
-        #self.predictions = predictions.tolist()
-        #Insert data to database
-        import mysql.connector
         from mysql.connector import MySQLConnection,Error
         import pandas as pd
         import numpy as np
@@ -51,13 +47,6 @@ class SQL:
             return print("Data stored in SQL")
         except Error as e:
             print(e)
-
-#from notebook.model_evaluation import y_pred
-#c = SQL("localhost","root",123456,"hr_analytics","aug_train")
-#c= c.query_data()
-#c = SQL("localhost","root",123456,"hr_analytics","aug_test")
-#c= c.insert_data(y_pred)
-#print(c)
 
 if __name__ == "__main__":
    SQL()

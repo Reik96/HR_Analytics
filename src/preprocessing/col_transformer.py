@@ -1,5 +1,7 @@
 class ColTransformer:
 
+    """Column Transformer that takes X_train and X_test as input.
+        Scales numerical cols and ohe categorical cols."""
     def __init__(self,X_train,X_test):
 
         self.X_train = X_train

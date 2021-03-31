@@ -6,9 +6,8 @@ import numpy as np
 seed = 42
 
 # Read File
-df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\data\raw\aug_train.csv")
+df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekte\HR_Analytics\data\raw\aug_train.csv")
 
-#df = pd.read_csv(r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\data\raw\aug_train.csv")
 
 from src.preprocessing import cleaning
 
@@ -17,8 +16,6 @@ df = cleaning.data_cleaning(df)
 # Data split in Training and Test data
 from src.preprocessing.data_split import Split
 
-
-#split = Split(df,target_name="target")
 X_train,X_test,y_train,y_test=Split(df,"target",test_size = 0.2,shuffle = True).train_test()
 
 # Transformation of columns

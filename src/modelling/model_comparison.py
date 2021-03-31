@@ -1,14 +1,14 @@
 
 class ModelComp:
     
-    """Choice of algorithms and vaidation based on accuracy,
+    """Choice of algorithms and validation based on accuracy,
         training time and inference time"""
 
     def __init__(self,seed=42):
         self.seed = seed 
     
     def models(self, lr=None,knn=None,rf=None,svm=None, xgboost=None):
-       # from imblearn.over_sampling import SMOTE,RandomOverSampler
+
         # Classifier
         self.lr = lr
         self.rf = rf
@@ -45,7 +45,9 @@ class ModelComp:
               ]
    
     def comparison(self,scaled_X_train,y_train,clf=None,splits=5):
-        
+       
+        #Compare the given classifiers based on validation score`s accuracy
+
         from sklearn.model_selection import cross_validate
         import pandas as pd
         from sklearn.model_selection import StratifiedKFold, cross_validate
@@ -65,12 +67,12 @@ class ModelComp:
             if clf is not None:
                 scaled_X_train,y_train = SMOTE(random_state=self.seed).fit_resample(scaled_X_train,y_train)
                 score = cross_validate(clf,scaled_X_train,y_train,cv=kfold,scoring="accuracy")
-                cv_scores.append(score["test_score"].mean()*100) # durchschnittliches Validierungsergebnis in Prozent
-                cv_score_time.append(score["score_time"].mean()) # durchschnittliche Inferenzzeit in Sekunden
-                cv_fit_time.append(score["fit_time"].mean()) # durchschnittliche Trainingszeit in Sekunden
+                cv_scores.append(score["test_score"].mean()*100) 
+                cv_score_time.append(score["score_time"].mean()) 
+                cv_fit_time.append(score["fit_time"].mean()) 
                 df_clf.append(clf_name)
 
-        # Dataframe mit Ergebnissen
+        # Dataframe with results
         df_scores = pd.DataFrame(cv_scores,columns=["Test Accuracy"])
         df_scortime = pd.DataFrame(cv_score_time,columns=["Inference time in seconds"])
         df_fit = pd.DataFrame(cv_fit_time,columns=["Training time in seconds"])
@@ -79,9 +81,6 @@ class ModelComp:
         df_clf_scores = df_clf_scores.sort_values(by=["Test Accuracy"], ascending=False)
         return df_clf_scores
 
-    #def imbalance():
-
-        # smote technique
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@ import base64
 import time
 import gspread
 from gspread_dataframe import set_with_dataframe
-from df2gspread import df2gspread as d2g
+#from df2gspread import df2gspread as d2g
 from oauth2client.service_account import ServiceAccountCredentials
 
 
