@@ -1,12 +1,14 @@
 #imports
-import pandas
-from sklearn.metrics import classification_report,confusion_matrix, roc_auc_score
 import numpy as np
-from data_preprocessing import scaled_X_train,scaled_X_test,y_test,y_train
-from sklearn.model_selection import RandomizedSearchCV
+import pandas
 from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import make_pipeline
 from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (classification_report, confusion_matrix,
+                             roc_auc_score)
+from sklearn.model_selection import RandomizedSearchCV
+
+from data_preprocessing import scaled_X_test, scaled_X_train, y_test, y_train
 
 #Define Classifier and parameters
 lr = LogisticRegression()

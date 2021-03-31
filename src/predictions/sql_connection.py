@@ -11,8 +11,8 @@ class SQL:
     def query_data(self,latest = False):
         # connect with the desired DB
         import mysql.connector
-        from mysql.connector import MySQLConnection,Error
         import pandas as pd
+        from mysql.connector import Error, MySQLConnection
         try:
             conn = mysql.connector.connect(
                 host=self.host,
@@ -34,10 +34,10 @@ class SQL:
             print(e)
   
     def insert_data(self,predictions):
-        from mysql.connector import MySQLConnection,Error
-        import pandas as pd
         import numpy as np
+        import pandas as pd
         import pymysql
+        from mysql.connector import Error, MySQLConnection
         from sqlalchemy import create_engine
         
         try:

@@ -1,10 +1,12 @@
 
-import pandas as pd 
-import numpy as np 
-from src.modelling.feature_names import get_feature_names
-from data_preprocessing import scaled_X_train,y_train,X_train
-import pickle 
+import pickle
+
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from src.modelling.feature_names import get_feature_names
+
+from data_preprocessing import X_train, scaled_X_train, y_train
 
 #import col transformer and logistic regression
 col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\src\preprocessing\col_transformer.pkl", "rb" ))

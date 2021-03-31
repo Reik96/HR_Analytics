@@ -1,6 +1,8 @@
 
-from notebook.data_preprocessing import scaled_X_train,scaled_X_test, y_train,y_test
 from src.modelling.model_comparison import ModelComp
+
+from notebook.data_preprocessing import (scaled_X_test, scaled_X_train, y_test,
+                                         y_train)
 
 mc = ModelComp()
 

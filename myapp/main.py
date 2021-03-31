@@ -1,7 +1,7 @@
-import pandas as pd
 import numpy as np
-from streamlit_app import * 
+import pandas as pd
 
+from streamlit_app import *
 
 
 def main():

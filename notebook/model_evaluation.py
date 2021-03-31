@@ -1,10 +1,13 @@
 #imports
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
-            
-from data_preprocessing import scaled_X_train,scaled_X_test,y_train,y_test, seed,X_train
+import seaborn
+import seaborn as sns
 from imblearn.over_sampling import SMOTE
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from xgboost import XGBClassifier
+
+from data_preprocessing import (X_train, scaled_X_test, scaled_X_train, seed,
+                                y_test, y_train)
 
 #Oversampling with SMOTE
 sm_X_train,sm_y_train = SMOTE(random_state=42).fit_resample(scaled_X_train,y_train)
@@ -18,10 +21,13 @@ y_pred_proba = lr.predict_proba(scaled_X_test)
 
 #Save model
 import pickle
-#pickle.dump(lr,open("log_reg_model.pkl","wb"))
 
 # Plot results
-from sklearn.metrics import confusion_matrix,roc_auc_score,f1_score,accuracy_score,classification_report
+from sklearn.metrics import (accuracy_score, classification_report,
+                             confusion_matrix, f1_score, roc_auc_score)
+
+#pickle.dump(lr,open("log_reg_model.pkl","wb"))
+
 print(f"Roc-Auc score: {roc_auc_score(y_test,y_pred)},f1_score: {f1_score(y_test,y_pred)},Accuracy: {accuracy_score(y_test,y_pred)}")
 print(classification_report(y_test,y_pred))
 print(y_pred)
