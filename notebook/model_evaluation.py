@@ -30,7 +30,7 @@ from sklearn.metrics import (accuracy_score, classification_report,
 
 print(f"Roc-Auc score: {roc_auc_score(y_test,y_pred)},f1_score: {f1_score(y_test,y_pred)},Accuracy: {accuracy_score(y_test,y_pred)}")
 print(classification_report(y_test,y_pred))
-print(y_pred)
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
