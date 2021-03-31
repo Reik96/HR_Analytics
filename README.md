@@ -89,11 +89,11 @@ All in all my developed Application would be a good MVP to start with for the un
 
 
 ## Resources: 
-* Data<br>
+* [Data](https://github.com/Reik96/HR_Analytics/tree/master/data/raw)<br>
 https://www.kaggle.com/arashnic/hr-analytics-job-change-of-data-scientists/tasks?taskId=3015<br>
-* Feature Name Function <br>
+* [Feature Name Function](https://github.com/Reik96/HR_Analytics/blob/master/src/modelling/feature_names.py) <br>
 https://johaupt.github.io/scikit-learn/tutorial/python/data%20processing/ml%20pipeline/model%20interpretation/columnTransformer_feature_names.html<br>
-* CSV Downloader Function <br>
+* [CSV Downloader Function](https://github.com/Reik96/HR_Analytics/blob/master/myapp/streamlit_app.py) <br>
 https://github.com/Jcharis/Streamlit_DataScience_Apps/blob/master/File_Downloader_App/app.py
 * Streamlit Basics<br>
 https://github.com/dataprofessor/code/tree/master/streamlit
