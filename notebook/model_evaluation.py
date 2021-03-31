@@ -10,7 +10,7 @@ from data_preprocessing import (X_train, scaled_X_test, scaled_X_train, seed,
                                 y_test, y_train)
 
 #Oversampling with SMOTE
-sm_X_train,sm_y_train = SMOTE(random_state=42).fit_resample(scaled_X_train,y_train)
+sm_X_train,sm_y_train = SMOTE(random_state=seed).fit_resample(scaled_X_train,y_train)
 
 #Training and Predicting
 lr = LogisticRegression(C=10, max_iter=10000, solver='saga')
