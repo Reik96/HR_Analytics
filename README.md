@@ -65,7 +65,7 @@ The application was built with Streamlit and contains the following functionalit
 
 After validating and comparing different classifiers (Logistic Regression, Random Forest, XGBoosting, KNN and SVM), the Logistic Regression achieved the best results when it comes to detect the underrepresented class.
 
-### Most important features
+### Most important Features
 
 It seems like the most important feature that decides whether the Data Scientists are looking for a new job or not is the city they are living in. <br>
 
@@ -81,7 +81,9 @@ A closer look on the classification report and confusion matrix reveals, that th
 ![Confusion Matrix](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Confusion_Matrix.jpeg)<br>
 
 ### Final Thoughts
+
 tbd
+
 
 ## Resources: 
 * Data<br>
