@@ -16,9 +16,22 @@
 
 This project aims to provide a minimal valuable application to support the potential HR department of the unnamed company to predict which Data Scientists are looking for a new job opportunity. This application should include functionalities to load, save and visualize data and predictions to enable an more efficient recruiting process.
 
+## App Preview
+
+![Streamlit App Overview](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Streamlit_Page1.JPG)
+![Streamlit App Tableau Integration](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Streamlit_Tableau.JPG)
+
+
+
 ## Conclusion
+* best Algorithm
 
-
+* Most important features
+![Feature Importance](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Feature_Importance.jpeg)
+* Predictions
+![Classification Report](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Classification_Report.JPG)
+![Confusion Matrix](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Confusion_Matrix.jpeg)
+* Final Thoughts
 
 ## Resources: 
 * Data<br>
