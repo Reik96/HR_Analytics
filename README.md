@@ -1,26 +1,26 @@
-## HR Analytics
+# HR Analytics
 
-# Project Overview:
+## Project Overview:
 
 * Using HR data from Big Data / Data Science - Company  
 * Performing a binary Classification including Model Comparison, Validation & Evaluation 
 * Deploying the ML Model on Streamlit with additional functionalities like connection to MySQL and Tableau Public
 
 
-# Introduction:
+## Introduction:
 
 "A company which is active in Big Data and Data Science wants to hire data scientists among people who successfully pass some courses which conduct by the company. Many people signup for their training. Company wants to know which of these candidates are really wants to work for the company after training or looking for a new employment because it helps to reduce the cost and time as well as the quality of training or planning the courses and categorization of candidates. Information related to demographics, education, experience are in hands from candidates signup and enrollment." (Link to the data in the Resources)
 
 
-# Project Scope
+## Project Scope
 
 This project aims to provide a minimal valuable application to support the potential HR department of the unnamed company to predict which Data Scientists are looking for a new job opportunity. This application should include functionalities to load, save and visualize data and predictions to enable an more efficient recruiting process.
 
-# Conclusion
+## Conclusion
 
 
 
-# Resources: 
+## Resources: 
 * Data<br>
 https://www.kaggle.com/arashnic/hr-analytics-job-change-of-data-scientists/tasks?taskId=3015<br>
 * Feature Name Function <br>
