@@ -9,7 +9,6 @@ import base64
 import time
 import gspread
 from gspread_dataframe import set_with_dataframe
-#from df2gspread import df2gspread as d2g
 from oauth2client.service_account import ServiceAccountCredentials
 
 
@@ -52,7 +51,6 @@ def data_storing_gs(df,clear=False):
 
     if clear == True:
         wks.clear()
-       # wks.set_dataframe(df, start=(1,1), extend=True)
         set_with_dataframe(wks,df,row=1,col=1)
 
     elif clear == False:
@@ -82,7 +80,7 @@ def predict_values(scaled_X,df):
 
 
 def csv_downloader(df_conc):
-    #https://github.com/Jcharis/Streamlit_DataScience_Apps/blob/master/File_Downloader_App/app.py
+    #Resource: https://github.com/Jcharis/Streamlit_DataScience_Apps/blob/master/File_Downloader_App/app.py
 
     csvfile = df_conc.to_csv()
     b64 = base64.b64encode(csvfile.encode()).decode()
