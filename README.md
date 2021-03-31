@@ -2,8 +2,8 @@
 
 ## Project Overview:
 
-* Using HR data from Big Data / Data Science - Company  
-* Performing a binary Classification including Model Comparison, Validation & Evaluation 
+* Using an imbalanced HR dataset from Big Data / Data Science - Company  
+* Performing a binary Classification including Model Comparison, Validation, Evaluation & Classbalancing 
 * Deploying the ML Model on Streamlit with additional functionalities like connection to MySQL and Tableau Public
 
 
@@ -18,20 +18,38 @@ This project aims to provide a minimal valuable application to support the poten
 
 ## App Preview
 
+The application was built with Streamlit and contains the following functionalities:
+* Choosing where to load the data from (SQL or CSV)
+* Inspecting the predictions (including probabilities) and corresponding features in a dataframe format 
+* Storing the results in SQL, Google Sheet or download as CSV 
+* Access to an embedded Tableau Public Dashboard (connected with the Google Sheet, dynamically updates once a day)
+
 ![Streamlit App Overview](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Streamlit_Page1.JPG)
 ![Streamlit App Tableau Integration](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Streamlit_Tableau.JPG)
 
 
 
 ## Conclusion
-* best Algorithm
 
-* Most important features
+### Best Algorithm
+
+After validating and comparing different classifiers (Logistic Regression, Random Forest, XGBoosting, KNN and SVM), the Logistic Regression achieved the best results when it comes to detect the underrepresented class.
+
+### Most important features
+
+It seems like the most important feature that decides whether the Data Scientists are looking for a new job or not is the city they are living in. <br>
 ![Feature Importance](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Feature_Importance.jpeg)
-* Predictions
+
+###  Predictions
+
+With an AUC of over 76 % the Model generally can distinguish the classes quite good.<br>
+A closer look on the classification report and confusion matrix reveals, that the Model is good in detecting class 0 but underperforming in detecting class 1. <br>
 ![Classification Report](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Classification_Report.JPG)
-![Confusion Matrix](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Confusion_Matrix.jpeg)
+
+![Confusion Matrix](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Confusion_Matrix.jpeg)<br>
+
 * Final Thoughts
+tbd
 
 ## Resources: 
 * Data<br>
