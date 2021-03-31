@@ -83,8 +83,10 @@ A closer look on the classification report and confusion matrix reveals, that th
 ### Final Thoughts
 
 After finishing my first project where I actually delivered a ML Service it is time now to wrap up the benefits and potential weaknesses of it.
-TBD
-
+I tried to provide a solution that comes as close as possible to a reliable tool for the potential HR department. The developed tool is able to detect over 77% of job seekers.
+For the Testset, it reduces the amount of individuals in question by 63%. That would lead to a reduced costs, effort and time consumption during the recruiting process.<br> 
+However there is still room for improvement, since the model has only a 51% chance, that Data Scientists marked as class 1 are really looking for a new job. Furthermore are the functionalities provided in the Streamlit-App not fully matured (e.g. the embedded Tableau Dashboard can only be accessed via API to refresh it on demand when using Tableau Server and Tableau Online).<br> 
+All in all my developed Application would be a good MVP to start with for the unknown company to hire new Data Scientists. 
 
 
 ## Resources: 
