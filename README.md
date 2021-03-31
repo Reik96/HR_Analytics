@@ -38,17 +38,19 @@ After validating and comparing different classifiers (Logistic Regression, Rando
 ### Most important features
 
 It seems like the most important feature that decides whether the Data Scientists are looking for a new job or not is the city they are living in. <br>
+
 ![Feature Importance](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Feature_Importance.jpeg)
 
 ###  Predictions
 
 With an AUC of over 76 % the Model generally can distinguish the classes quite good.<br>
 A closer look on the classification report and confusion matrix reveals, that the Model is good in detecting class 0 but underperforming in detecting class 1. <br>
+
 ![Classification Report](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Classification_Report.JPG)
 
 ![Confusion Matrix](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Confusion_Matrix.jpeg)<br>
 
-* Final Thoughts
+### Final Thoughts
 tbd
 
 ## Resources: 
