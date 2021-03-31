@@ -39,7 +39,6 @@ def data_loading(data_action):
 
 def data_storing_sql(predictions):
 
-       # conn = SQL("localhost","root",123456,"hr_analytics")
         conn = SQL("localhost","root",123456,"hr_analytics","predictions")
         conn.insert_data(predictions)
 
@@ -47,7 +46,7 @@ def data_storing_sql(predictions):
 def data_storing_gs(df,clear=False):
 
     #Loads df into Google Spreadsheets
-    gc = gspread.service_account(filename=r"C:\Users\rsele\OneDrive\Data Science\hr-analytics-309111-dd74d95fb582.json") #-> Credential File needed
+    gc = gspread.service_account(filename=r'your_google_API_credentials.json') #-> Credential File needed
     sh = gc.open('HR_Analytics')
     wks = sh.get_worksheet(0) 
 
