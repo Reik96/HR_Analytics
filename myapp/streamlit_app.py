@@ -15,8 +15,8 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 timestring = time.strftime("%Y%m%d")
 
-model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\model\log_reg_model.pkl", "rb" ))
-col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekt\ML_with_SQL_Tableau\src\preprocessing\col_transformer.pkl", "rb" ))
+model = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekte\HR_Analytics\model\log_reg_model.pkl", "rb" ))
+col_transformer = pickle.load( open( r"C:\Users\rsele\OneDrive\Data Science\Projekte\HR_Analytics\src\preprocessing\col_transformer.pkl", "rb" ))
 
 
 def data_loading(data_action):
