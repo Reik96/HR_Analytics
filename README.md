@@ -71,7 +71,7 @@ It seems like the most important feature that decides whether the Data Scientist
 
 ![Feature Importance](https://github.com/Reik96/HR_Analytics/blob/master/pictures/Feature_Importance.jpeg)
 
-###  Predictions:
+###  Predictions
 
 With an AUC of over 76 % the Model generally can distinguish the classes quite good.<br>
 A closer look on the classification report and confusion matrix reveals, that the Model is good in detecting class 0 but underperforming in detecting class 1. <br>
